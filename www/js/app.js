@@ -42,28 +42,21 @@
         //Display questions from local cache
         //Call getFeed if local cache is completed
         displayQuestion = function() {
-            var qno = window.localStorage.getItem("qno");
+            var qno = window.localStorage.getItem("qno"); //Current question number. 
+            var json = window.localStorage.getItem(qno);  //Get question with index qno
+            var thisq = JSON.parse(json);
+            checkAnswer(thisq['ans']);  //Check the answer of previous question before updating it.
+
             qno++;
             if (qno > 48) {
                 getFeed();
                 qno = 1;
             }
             window.localStorage.setItem("qno", qno);
-            var json = window.localStorage.getItem(qno);
-            var thisq = JSON.parse(json);
-            $notification.empty();
-            $notification.append($ques.text());
-            $notification.append('<br>');
-            $notification.append($ch1.text());
-            $notification.append('<br>');
-            $notification.append($ch2.text());
-            $notification.append('<br>');
-            $notification.append($ch3.text());
-            $notification.append('<br>');
-            $notification.append($ch4.text());
-            $notification.append('<br>');
-    
-            checkAnswer(thisq['ans']);
+
+            json = window.localStorage.getItem(qno);
+            thisq = JSON.parse(json);
+
             $ques.empty();
             $ch1.empty();
             $ch2.empty();
@@ -91,6 +84,21 @@
             var correct = window.sessionStorage.getItem("correct");
             var total = window.sessionStorage.getItem("total");
             total++;
+
+
+            $notification.empty();
+            $notification.append($ques.text());
+            $notification.append('<br>');
+            $notification.append($ch1.text());
+            $notification.append('<br>');
+            $notification.append($ch2.text());
+            $notification.append('<br>');
+            $notification.append($ch3.text());
+            $notification.append('<br>');
+            $notification.append($ch4.text());
+            $notification.append('<br>');
+    
+
             if (areEqual) {
                 $notification.append('Correct! (', user_ans, ')');
                 correct++;
